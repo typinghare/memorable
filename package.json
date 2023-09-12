@@ -1,0 +1,24 @@
+{
+  "name": "memorable",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/inquirer": "^9.0.3",
+    "@types/node": "^20.6.0",
+    "boxen": "^7.1.1",
+    "chalk": "4.1.2",
+    "inquirer": "^9.2.11",
+    "ora": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.4",
+    "ts-jest": "^29.1.1"
+  }
+}
