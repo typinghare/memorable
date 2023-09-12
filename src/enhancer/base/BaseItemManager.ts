@@ -1,6 +1,5 @@
 import { Item, ItemPropertyKey } from '../../core/Item'
-
-export type ItemKey = string
+import { BaseItemProperties, ItemKey } from './BaseEnhancer'
 
 /**
  * Base manager.
@@ -11,6 +10,22 @@ export class BaseItemManager {
      * @private
      */
     private readonly byKey: Map<ItemKey, Item[]> = new Map()
+
+    /**
+     * Registers an item.
+     */
+    public registerItem(item: Item<BaseItemProperties>): Item {
+        const key = item.self<BaseItemProperties>().getPropertyValue('key')
+        const itemList = this.byKey.get(key)
+
+        if (itemList) {
+            itemList.push(item)
+        } else {
+            this.byKey.set(key, [item])
+        }
+
+        return item
+    }
 
     /**
      * Retrieves items by a specified key.

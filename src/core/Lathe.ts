@@ -41,8 +41,10 @@ export class Lathe<B, S, P> {
 
     /**
      * Process a blank, and returns a product.
+     * @param blank The blank to process
+     * @param material Material
      */
-    public process(blank: B, material: any): P {
+    public process(blank: B, material?: any): P {
         let semi = this.initialDrawing(blank, material, blank)
 
         this.semiDrawingList.forEach(semiDrawing => {

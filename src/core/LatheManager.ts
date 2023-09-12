@@ -13,6 +13,9 @@ export interface Lathes {
 
     // This lathe converts objects into items
     convertObject: Lathe<ItemObject, Item, Item>
+
+    // This lathe converts items into string, which will be printed on the console
+    printItem: Lathe<Item, string, string>
 }
 
 /**
@@ -32,6 +35,19 @@ export class LatheManager {
         ),
         convertObject: new Lathe<ItemObject, Item, Item>(
             (object): Item => new Item(object.id),
+        ),
+        printItem: new Lathe<Item, string, string>(
+            (item): string => {
+                let str = `ID: ${item.getId()}, properties: {\n`
+                const properties = item.getProperties()
+
+                for (const propertiesKey in properties) {
+                    // @ts-ignore
+                    str += '  ' + propertiesKey.toString() + ': ' + properties[propertiesKey] + ',\n'
+                }
+
+                return str + '}'
+            },
         ),
     }
 

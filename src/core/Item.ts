@@ -27,7 +27,6 @@ export class Item<P extends ItemProperties = {}> {
      * @param id The ID of this item
      */
     public constructor(private readonly id: ItemID) {
-        this.id = 1
     }
 
     /**

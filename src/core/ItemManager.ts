@@ -41,15 +41,25 @@ export class ItemManager {
     /**
      * Registers an item.
      */
-    public register(): void {
-
-    }
-
-    public createItem<M = any>(material: M): Item {
-        const id = ++this.maxId
-        const item = new Item(id)
+    public register(item: Item): Item {
+        const id = item.getId()
+        this.maxId = Math.max(this.maxId, id)
         this.byId.set(id, item)
 
-        return this.app.getLatheManager().getLathe('createItem').process(id, material)
+        return item
+    }
+
+    /**
+     * Creates an item.
+     * @param material material
+     */
+    public createItem<M = any>(material?: M): Item {
+        const id = ++this.maxId
+        const item = this.app
+            .getLatheManager()
+            .getLathe('createItem')
+            .process(id, material)
+
+        return this.register(item)
     }
 }
