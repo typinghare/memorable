@@ -28,4 +28,6 @@ export class Constants {
         [TimeEnhancer.name]: TimeEnhancer,
         [DateEnhancer.name]: DateEnhancer,
     }
+
+    public static readonly ID_PREFIX: string = '@'
 }

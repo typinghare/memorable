@@ -47,7 +47,9 @@ export class ItemManager {
         this.maxId = Math.max(this.maxId, id)
         this.byId.set(id, item)
 
-        return item
+        return this.app.getSingleton(LatheManager)
+            .getLathe('registerItem')
+            .process(item)
     }
 
     /**
@@ -56,8 +58,7 @@ export class ItemManager {
      */
     public createItem<M = any>(material?: M): Item {
         const id = ++this.maxId
-        const item = this.app
-            .getSingleton(LatheManager)
+        const item = this.app.getSingleton(LatheManager)
             .getLathe('createItem')
             .process(id, material)
 

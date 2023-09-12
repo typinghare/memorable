@@ -5,7 +5,6 @@ import { ItemManager } from './ItemManager'
 import { CommandManager } from './command/CommandManager'
 import { Command } from './command/Command'
 import { Constants } from '../Constants'
-import { CommandNotFoundException } from './command/CommandNotFoundException'
 import { Loader } from './Loader'
 import { Saver } from './Saver'
 import { Class, SingletonContainer } from './SingletonContainer'
@@ -14,6 +13,8 @@ import * as fs from 'fs'
 import { getAbsolutePath } from './utils'
 import { EnhancerNotFound } from './enhancer/EnhancerNotFound'
 import { MissingRequiredEnhancer } from './enhancer/MissingRequiredEnhancer'
+import { CommandExecution } from './command/CommandExecution'
+import { IdUtil } from './util/IdUtil'
 
 /**
  * Enhancer class.
@@ -44,7 +45,6 @@ export class App {
         this.container.register(new Saver(this))
 
         // Builtin commands
-        this.registerGlobalCommands()
         this.registerCommands()
     }
 
@@ -128,19 +128,16 @@ export class App {
      *
      * @param args
      */
-    public executeCommand(args: string[]): void {
+    public executeCommand(args: string[]): CommandExecution {
         const word: string = args[1] || ''
         const commandArgs: string[] = args.slice(2)
 
-        try {
-            const command = this.getSingleton(CommandManager).getCommand(word, commandArgs.length)
-            const callback = command.getCallback()
-            callback(commandArgs)
-        } catch (e) {
-            if (e instanceof CommandNotFoundException) {
-                console.log(e.message)
-            }
-        }
+        const command = this.getSingleton(CommandManager).getCommand(word, commandArgs.length)
+        const callback = command.getCallback()
+        const execution = new CommandExecution()
+        callback(commandArgs, execution)
+
+        return execution
     }
 
     public saveData(): void {
@@ -151,36 +148,26 @@ export class App {
         this.getSingleton(Saver).saveAll(absolutePath)
     }
 
-    private registerGlobalCommands(): void {
-        const commandManager = this.getSingleton(CommandManager)
-
-        // $ --version
-        commandManager.register(new Command('--version', 0, (): void => {
-            console.log(`${Constants.APP_NAME} v${Constants.APP_VERSION}`)
-        }))
-
-        // $ -v
-        commandManager.register(new Command('-v', 0, (): void => {
-            console.log(`${Constants.APP_NAME} v${Constants.APP_VERSION}`)
-        }))
-    }
-
     private registerCommands(): void {
         const commandManager = this.getSingleton(CommandManager)
         const itemManager = this.getSingleton(ItemManager)
         const latheManager = this.getSingleton(LatheManager)
 
         // $ new
-        commandManager.register(new Command('new', 0, (): void => {
+        commandManager.register(new Command('new', 0, ([], execution): void => {
             const item = itemManager.createItem()
-            console.log(latheManager.getLathe('printItem').process(item))
+            execution.log(latheManager.getLathe('printItem').process(item))
         }))
 
         // $ item [id]
-        commandManager.register(new Command('item', 1, ([id]): void => {
-            const item = itemManager.getById(parseInt(id))
-
-            console.log(latheManager.getLathe('printItem').process(item))
+        commandManager.register(new Command('item', 1, ([idString], execution): void => {
+            const id = IdUtil.parseId(idString)
+            if (IdUtil.isLegalId(id)) {
+                const item = itemManager.getById(id)
+                execution.log(latheManager.getLathe('printItem').process(item))
+            } else {
+                throw new Error(`Illegal ID: [ ${idString} ].`)
+            }
         }))
     }
 }

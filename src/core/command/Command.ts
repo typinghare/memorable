@@ -1,7 +1,9 @@
+import { CommandExecution } from './CommandExecution'
+
 /**
  * Command callback function.
  */
-export type CommandCallback = (args: string[]) => void
+export type CommandCallback = (args: string[], execution: CommandExecution) => void
 
 /**
  * Command.

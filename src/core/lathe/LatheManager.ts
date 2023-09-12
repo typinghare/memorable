@@ -5,6 +5,9 @@ import { Item, ItemID, ItemObject } from '../Item'
  * All lathes.
  */
 export interface Lathes {
+    // Register item
+    registerItem: Lathe<Item, Item, Item>
+
     // This lathe creates items
     createItem: Lathe<ItemID, Item, Item>
 
@@ -27,6 +30,7 @@ export class LatheManager {
      * @private
      */
     private readonly lathes: Lathes = {
+        registerItem: new Lathe<Item, Item, Item>(),
         createItem: new Lathe<ItemID, Item, Item>((id): Item => new Item(id)),
         convertItem: new Lathe<Item, ItemObject, ItemObject>(
             (item): ItemObject => ({
@@ -38,7 +42,7 @@ export class LatheManager {
         ),
         printItem: new Lathe<Item, string, string>(
             (item): string => {
-                let str = `(&${item.getId()}) = {\n`
+                let str = `(@${item.getId()}) = {\n`
                 const properties = item.getProperties()
 
                 for (const propertiesKey in properties) {
