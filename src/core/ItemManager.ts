@@ -1,5 +1,6 @@
 import { Item, ItemID } from './Item'
 import { App } from './App'
+import { LatheManager } from './lathe/LatheManager'
 
 /**
  * Item manager.
@@ -56,10 +57,17 @@ export class ItemManager {
     public createItem<M = any>(material?: M): Item {
         const id = ++this.maxId
         const item = this.app
-            .getLatheManager()
+            .getSingleton(LatheManager)
             .getLathe('createItem')
             .process(id, material)
 
         return this.register(item)
+    }
+
+    /**
+     * Returns all items.
+     */
+    public getAllItems(): IterableIterator<Item> {
+        return this.byId.values()
     }
 }

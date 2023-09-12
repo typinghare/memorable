@@ -21,7 +21,7 @@ export class EnhancerManager {
      * Registers an enhancer
      * @param enhancer The enhancer to register
      */
-    public registerEnhancer(enhancer: Enhancer): Enhancer {
+    public register(enhancer: Enhancer): Enhancer {
         this.enhancerList.push(enhancer)
 
         return enhancer

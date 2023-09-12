@@ -1,5 +1,5 @@
 import { Lathe } from './Lathe'
-import { Item, ItemID, ItemObject } from './Item'
+import { Item, ItemID, ItemObject } from '../Item'
 
 /**
  * All lathes.
@@ -38,12 +38,12 @@ export class LatheManager {
         ),
         printItem: new Lathe<Item, string, string>(
             (item): string => {
-                let str = `ID: ${item.getId()}, properties: {\n`
+                let str = `(&${item.getId()}) = {\n`
                 const properties = item.getProperties()
 
                 for (const propertiesKey in properties) {
                     // @ts-ignore
-                    str += '  ' + propertiesKey.toString() + ': ' + properties[propertiesKey] + ',\n'
+                    str += '  ' + propertiesKey.toString() + ': ' + properties[propertiesKey] + '\n'
                 }
 
                 return str + '}'

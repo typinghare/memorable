@@ -1,4 +1,4 @@
-import { Item, ItemPropertyKey } from '../../core/Item'
+import { Item } from '../../core/Item'
 import { BaseItemProperties, ItemKey } from './BaseEnhancer'
 
 /**

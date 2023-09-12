@@ -22,6 +22,9 @@ pnpm add ora
 
 # Boxen is a package for creating boxes and borders around text in the terminal.
 pnpm add boxen
+
+# MomentJS
+pnpm add moment
 ~~~
 
 ~~~bash

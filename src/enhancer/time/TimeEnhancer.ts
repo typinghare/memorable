@@ -1,4 +1,4 @@
-import { Enhancer } from '../../core/Enhancer'
+import { Enhancer } from '../../core/enhancer/Enhancer'
 
 export interface TimeItemProperties {
     // The timestamp when creating the item

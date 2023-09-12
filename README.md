@@ -3,19 +3,29 @@
 ## Get Started
 
 ~~~bash
-# To create an item
+# Create an item
+mem new
+# The ID of the item is returned
+
+# Get the item by ID 
+mem item [id]
+# The properties of the item is printed; null is printed if the ID does not exist 
+~~~
+
+### Base
+~~~bash
+# Create an item with key and value
 mem new [key] [value]
 
-# To retrieve an item
-mem item [key | id]
+# Retrieve items by key
+mem find [key]
 
 # To get the value of an item
-mem val [key | id]
-
-# To get the id of an item
-mem id [key]
+mem val [id]
 ~~~
 Key conflicts: different items distinguished by IDs.
+
+### Date
 
 ## Tags
 ~~~bash

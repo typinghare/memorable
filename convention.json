@@ -1,0 +1,10 @@
+{
+  "userConfigFilepath": "~/.mem/config.json",
+  "enhancerList": [
+    "BaseEnhancer",
+    "TimeEnhancer",
+    "DateEnhancer"
+  ],
+  "dataFilepath": "~/.mem/data.json",
+  "serverPort": 9050
+}
